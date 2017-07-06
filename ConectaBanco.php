@@ -11,4 +11,8 @@ $pass = "masterkey";
 $hostnameCyber = "localhost:c:\jobs\cybersul\databases\DADOSADM.FDB";
 
 $conexao = ibase_connect($hostnameCyber, $user, $pass,'ISO8859_1');
+
+if (!isset($_SESSION['codRepresentante'])) {
+	header('Location: Login.php');
+}
 ?>

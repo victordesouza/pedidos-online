@@ -8,7 +8,7 @@
 <body style="background-color: #999">
 
 <?php 									// TELA DE LOGIN DOS REPRESENTANTES
-include("ConectaBanco.php");
+header("Content-Type: text/html; charset=ISO8859_1");
 if(array_key_exists("error",$_GET) && $_GET["error"]=="true"){ ?>
 <p class="alert-danger">Usuário ou Senha Incorreto</p><br>
 <?php }?>

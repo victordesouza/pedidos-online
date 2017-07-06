@@ -14,7 +14,7 @@ if(array_key_exists("pedido",$_GET) && $_GET["pedido"]=="true"){ ?>
 ?>
 
 <div class="user">
-<span><img style="margin-left: 3%;margin-top: 1.5%;margin-right: 5%" src="user.png" width="15%"><span style="font-size: 16px;">Olá <?=$nome?>  ,</span><a style="color: red;float: right;margin-right: 2%;margin-top: 5%" href="Login.php"><button class="btn btn-danger">Sair</button></a>  
+<span><img style="margin-left: 3%;margin-top: 1.5%;margin-right: 5%" src="user.png" width="15%"><span style="font-size: 16px;">Olá <?=$nome?>  ,</span><a style="color: red;float: right;margin-right: 2%;margin-top: 5%" href="index.php"><button class="btn btn-danger">Sair</button></a>  
 </span>
 </div>
 
