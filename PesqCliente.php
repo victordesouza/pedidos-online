@@ -40,35 +40,35 @@ if (isset($_GET['ordena'])) {
 function listaCliente($conexao){
 	$clientesArray = array();
 	if (!isset($_POST['pesquisar'])) {
-		$resultado = ibase_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from augc0301 ORDER BY CODIGO_CLIENTE");
+		$resultado = mysqli_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from AUGC0301 ORDER BY CODIGO_CLIENTE");
 		if (isset($_GET['ordena']) && $_GET['ordena'] == 'nomeC') {
-		$resultado = ibase_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from augc0301 ORDER BY NOME");
+		$resultado = mysqli_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from AUGC0301 ORDER BY NOME");
 		}
 		if (isset($_GET['ordena']) && $_GET['ordena'] == 'codC') {
-		$resultado = ibase_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from augc0301 ORDER BY CODIGO_CLIENTE");
+		$resultado = mysqli_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from AUGC0301 ORDER BY CODIGO_CLIENTE");
 		}
 		if (isset($_GET['ordena']) && $_GET['ordena'] == 'CNPJ') {
-		$resultado = ibase_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from augc0301 ORDER BY CGC_CNPJ");
+		$resultado = mysqli_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from AUGC0301 ORDER BY CGC_CNPJ");
 		}
 		if (isset($_GET['ordena']) && $_GET['ordena'] == 'cidade') {
-		$resultado = ibase_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from augc0301 ORDER BY CIDADE");
+		$resultado = mysqli_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from AUGC0301 ORDER BY CIDADE");
 		}
 		if (isset($_GET['ordena']) && $_GET['ordena'] == 'estado') {
-		$resultado = ibase_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from augc0301 ORDER BY ESTADO");
+		$resultado = mysqli_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from AUGC0301 ORDER BY ESTADO");
 		}
 	}else {
 		function pesquisa($coluna){
 			$pesquisar=explode(" ",$_POST['pesquisar']);
 			for ($i=0; $i < count($pesquisar); $i++) { 
 				if ($i == 0) {
-					$pesquisa = $coluna." containing '".$pesquisar[$i];
+					$pesquisa = $coluna." like '".$pesquisar[$i];
 					if($i + 1 == count($pesquisar) || $i == count($pesquisar)){
-						$pesquisa = $coluna." containing '".$pesquisar[$i]."' order by ".$coluna;
+						$pesquisa = $coluna." like '".$pesquisar[$i]."' order by ".$coluna;
 					}
 				}else if($i + 1 == count($pesquisar)){
-					$pesquisa .= "' and ".$coluna." containing '".$pesquisar[$i]."' order by ".$coluna;
+					$pesquisa .= "' and ".$coluna." like '".$pesquisar[$i]."' order by ".$coluna;
 				}else{
-					$pesquisa .= "' and ".$coluna." containing '".$pesquisar[$i];
+					$pesquisa .= "' and ".$coluna." like '".$pesquisar[$i];
 				}
 			}
 			return $pesquisa;	
@@ -76,29 +76,29 @@ function listaCliente($conexao){
 
 		if (isset($_GET['ordena']) && $_GET['ordena'] == 'nomeC') {
 			$pesquisa = pesquisa("NOME");
-			$resultado = ibase_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from augc0301 where $pesquisa ");
+			$resultado = mysqli_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from AUGC0301 where $pesquisa ");
 		}
 		if (isset($_GET['ordena']) && $_GET['ordena'] == 'codC') {
 			$pesquisa = pesquisa("CODIGO_CLIENTE");
-			$resultado = ibase_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from augc0301 where $pesquisa ");
+			$resultado = mysqli_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from AUGC0301 where $pesquisa ");
 		}
 		if (isset($_GET['ordena']) && $_GET['ordena'] == 'CNPJ') {
 			$pesquisa = pesquisa("CGC_CNPJ");
-			$resultado = ibase_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from augc0301 where $pesquisa ");
+			$resultado = mysqli_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from AUGC0301 where $pesquisa ");
 		}
 		if (isset($_GET['ordena']) && $_GET['ordena'] == 'cidade') {
 			$pesquisa = pesquisa("CIDADE");
-			$resultado = ibase_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from augc0301 where $pesquisa ");
+			$resultado = mysqli_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from AUGC0301 where $pesquisa ");
 		}
 		if (isset($_GET['ordena']) && $_GET['ordena'] == 'estado') {
 			$pesquisa = pesquisa("ESTADO");
-			$resultado = ibase_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from augc0301 where $pesquisa ");
+			$resultado = mysqli_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from AUGC0301 where $pesquisa ");
 		}if (!isset($_GET['ordena'])) {
 			$pesquisa = pesquisa("NOME");
-			$resultado = ibase_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from augc0301 where $pesquisa ");
+			$resultado = mysqli_query($conexao,"select CODIGO_CLIENTE,NOME,CGC_CNPJ,CIDADE,ESTADO from AUGC0301 where $pesquisa ");
 		}
 	}
-	while ($clientes = ibase_fetch_assoc($resultado)) {
+	while ($clientes = mysqli_fetch_assoc($resultado)) {
 		array_push($clientesArray,$clientes);
 	}
 	return $clientesArray;

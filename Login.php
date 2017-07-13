@@ -1,4 +1,4 @@
-<!DOCTYPE html>					
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="ISO8859_1"/>
@@ -8,14 +8,14 @@
 <body style="background-color: #999">
 
 <?php 									// TELA DE LOGIN DOS REPRESENTANTES
-header("Content-Type: text/html; charset=ISO8859_1");
+header("Content-Type: text/html; charset=iso-8859-1");
 if(array_key_exists("error",$_GET) && $_GET["error"]=="true"){ ?>
 <p class="alert-danger">Usuário ou Senha Incorreto</p><br>
 <?php }?>
 
 <div style="margin-left: 30%;margin-right: 30%">
 	<form style="text-align: center;padding: 30px;background-color: #e5e5e5;margin-top: 7%;border-radius: 12px" method="post" action="VerificaLogin.php">
-	
+
 		<img align="center" src="magazin.png">
 		<br><br>
 		<div class="input-group">
@@ -28,7 +28,7 @@ if(array_key_exists("error",$_GET) && $_GET["error"]=="true"){ ?>
     	</div>
     	<br>
 		<input class="btn btn-default btn-lg" type="submit" name="submit" value="Entrar">
-	
+
 	</form>
 </div>
 <!--<div style="position: absolute;bottom: 0;margin-left: 70%">

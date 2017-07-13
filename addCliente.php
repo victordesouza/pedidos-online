@@ -1,4 +1,4 @@
-<?php 								// FUNÇÃO DE CADASTRO DE NOVOS CLIENTES
+<?php 								// FUNï¿½ï¿½O DE CADASTRO DE NOVOS CLIENTES
 include("Cabecalho.php");
 
 if(array_key_exists("error",$_GET) && $_GET["error"]=="true"){ ?>
@@ -15,7 +15,7 @@ if(array_key_exists("error",$_GET) && $_GET["error"]=="true"){ ?>
 <tr class="confirma">
 	<th class="confirma"></th>
 	<td class="confirma" align="center" colspan="4">
-	<form action="" method="post"> 
+	<form action="" method="post">
 		<input type="radio" name="tipo" value="j" onclick='this.form.submit();' <?php if((isset($_POST['tipo'])&&$_POST['tipo']=='j')||!isset($_POST['tipo'])){echo "checked";}?>><strong style="margin-left: 5px;font-size: 14px">Pessoa Jurídica</strong>
 		<input style="margin-left: 40%" value="f" type="radio" name="tipo" onclick='this.form.submit();' <?php if(isset($_POST['tipo'])&&$_POST['tipo']=='f'){echo "checked";}?>><strong style="margin-left: 5px;font-size: 14px">Pessoa Física</strong>
 	</form>
@@ -103,4 +103,3 @@ if(array_key_exists("error",$_GET) && $_GET["error"]=="true"){ ?>
 <input type="submit" name="submit" value="CADASTRAR CLIENTE" style="margin-left: 70%" class="cadFeito1">
 </form>
 </div></div>
-

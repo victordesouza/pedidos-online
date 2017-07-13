@@ -38,43 +38,43 @@ if (isset($_GET['ordena'])) {
 function listaTrans($conexao){
 	$transArray = array();
 	if (!isset($_POST['pesquisar'])) {
-		$resultado = ibase_query($conexao,"select FCOD, FNOME, FCNPJ_CIC, FNOME_FANTASIA from augc0501 where FTIPO = 'T' ORDER BY FNOME");
+		$resultado = mysqli_query($conexao,"select FCOD, FNOME, FCNPJ_CIC, FNOME_FANTASIA from AUGC0501 where FTIPO = 'T' ORDER BY FNOME");
 		if (isset($_GET['ordena']) && $_GET['ordena'] == 'nomeC') {
-		$resultado = ibase_query($conexao,"select FCOD, FNOME, FCNPJ_CIC, FNOME_FANTASIA from augc0501 where FTIPO = 'T' ORDER BY FNOME");
+		$resultado = mysqli_query($conexao,"select FCOD, FNOME, FCNPJ_CIC, FNOME_FANTASIA from AUGC0501 where FTIPO = 'T' ORDER BY FNOME");
 		}
 		if (isset($_GET['ordena']) && $_GET['ordena'] == 'codC') {
-		$resultado = ibase_query($conexao,"select FCOD, FNOME, FCNPJ_CIC, FNOME_FANTASIA from augc0501 where FTIPO = 'T' ORDER BY FCOD");
+		$resultado = mysqli_query($conexao,"select FCOD, FNOME, FCNPJ_CIC, FNOME_FANTASIA from AUGC0501 where FTIPO = 'T' ORDER BY FCOD");
 		}
 		if (isset($_GET['ordena']) && $_GET['ordena'] == 'CNPJ') {
-		$resultado = ibase_query($conexao,"select FCOD, FNOME, FCNPJ_CIC, FNOME_FANTASIA from augc0501 where FTIPO = 'T' ORDER BY FCNPJ_CIC");
+		$resultado = mysqli_query($conexao,"select FCOD, FNOME, FCNPJ_CIC, FNOME_FANTASIA from AUGC0501 where FTIPO = 'T' ORDER BY FCNPJ_CIC");
 		}
 		if (isset($_GET['ordena']) && $_GET['ordena'] == 'fantasia') {
-		$resultado = ibase_query($conexao,"select FCOD, FNOME, FCNPJ_CIC, FNOME_FANTASIA from augc0501 where FTIPO = 'T' ORDER BY FNOME_FANTASIA");
+		$resultado = mysqli_query($conexao,"select FCOD, FNOME, FCNPJ_CIC, FNOME_FANTASIA from AUGC0501 where FTIPO = 'T' ORDER BY FNOME_FANTASIA");
 		}
 	}else {
 
 		if (isset($_GET['ordena']) && $_GET['ordena'] == 'nomeC') {
 			$pesquisa = pesquisa("FNOME");
-			$resultado = ibase_query($conexao,"select FCOD,FNOME,FCNPJ_CIC,FNOME_FANTASIA from augc0501 where FTIPO = 'T' and $pesquisa ");
+			$resultado = mysqli_query($conexao,"select FCOD,FNOME,FCNPJ_CIC,FNOME_FANTASIA from AUGC0501 where FTIPO = 'T' and $pesquisa ");
 		}
 		if (isset($_GET['ordena']) && $_GET['ordena'] == 'codC') {
 			$pesquisa = pesquisa("FCOD");
-			$resultado = ibase_query($conexao,"select FCOD,FNOME,FCNPJ_CIC,FNOME_FANTASIA from augc0501 where FTIPO = 'T' and $pesquisa ");
+			$resultado = mysqli_query($conexao,"select FCOD,FNOME,FCNPJ_CIC,FNOME_FANTASIA from AUGC0501 where FTIPO = 'T' and $pesquisa ");
 		}
 		if (isset($_GET['ordena']) && $_GET['ordena'] == 'CNPJ') {
 			$pesquisa = pesquisa("FCNPJ_CIC");
-			$resultado = ibase_query($conexao,"select FCOD,FNOME,FCNPJ_CIC,FNOME_FANTASIA from augc0501 where FTIPO = 'T' and $pesquisa ");
+			$resultado = mysqli_query($conexao,"select FCOD,FNOME,FCNPJ_CIC,FNOME_FANTASIA from AUGC0501 where FTIPO = 'T' and $pesquisa ");
 		}
 		if (isset($_GET['ordena']) && $_GET['ordena'] == 'fantasia') {
 			$pesquisa = pesquisa("FNOME_FANTASIA");
-			$resultado = ibase_query($conexao,"select FCOD,FNOME,FCNPJ_CIC,FNOME_FANTASIA from augc0501 where FTIPO = 'T' and $pesquisa ");
+			$resultado = mysqli_query($conexao,"select FCOD,FNOME,FCNPJ_CIC,FNOME_FANTASIA from AUGC0501 where FTIPO = 'T' and $pesquisa ");
 		}
 		if (!isset($_GET['ordena'])) {
 			$pesquisa = pesquisa("FNOME");
-			$resultado = ibase_query($conexao,"select FCOD,FNOME,FCNPJ_CIC,FNOME_FANTASIA from augc0501 where FTIPO = 'T' and $pesquisa ");
+			$resultado = mysqli_query($conexao,"select FCOD,FNOME,FCNPJ_CIC,FNOME_FANTASIA from AUGC0501 where FTIPO = 'T' and $pesquisa ");
 		}
 	}
-	while ($trans = ibase_fetch_assoc($resultado)) {
+	while ($trans = mysqli_fetch_assoc($resultado)) {
 		array_push($transArray,$trans);
 	}
 	return $transArray;
@@ -84,14 +84,14 @@ function pesquisa($coluna){
 	$pesquisar=explode(" ",$_POST['pesquisar']);
 	for ($i=0; $i < count($pesquisar); $i++) { 
 		if ($i == 0) {
-			$pesquisa = $coluna." containing '".$pesquisar[$i];
+			$pesquisa = $coluna." like '".$pesquisar[$i];
 			if($i + 1 == count($pesquisar) || $i == count($pesquisar)){
-				$pesquisa = $coluna." containing '".$pesquisar[$i]."' order by ".$coluna;
+				$pesquisa = $coluna." like '".$pesquisar[$i]."' order by ".$coluna;
 			}
 		}else if($i + 1 == count($pesquisar)){
-			$pesquisa .= "' and ".$coluna." containing '".$pesquisar[$i]."' order by ".$coluna;
+			$pesquisa .= "' and ".$coluna." like '".$pesquisar[$i]."' order by ".$coluna;
 		}else{
-			$pesquisa .= "' and ".$coluna." containing '".$pesquisar[$i];
+			$pesquisa .= "' and ".$coluna." like '".$pesquisar[$i];
 		}
 	}
 	return $pesquisa;	

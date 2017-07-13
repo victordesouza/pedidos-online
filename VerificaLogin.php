@@ -1,24 +1,20 @@
-<?php 
-include("Cabecalho.php");
+<?php
+include("ConectaBanco.php");
 
-$cont= 0;
 $nome = $_POST['nome'];
 $_SESSION['nomeCliente'] = $nome;
+$senha = $_POST['password'];
 
-$password = $_POST['password'];
-$SenhaArray = array();
-
-if ($nome == NULL || $password == NULL){
+if ($nome == NULL || $senha == NULL){
 	header('Location: Login.php?error=true');
 }
+$resultado = mysqli_query($conexao, "select * from AUGC0501 f where f.fousuario = '$nome' and f.fovendedorregistro = '$senha'");
+$linha = mysqli_fetch_assoc($resultado);
 
-$qySenha = ibase_query($conexao, "select f.fcod from augc0501 f where upper(f.fousuario) = upper('{$nome}') and f.fovendedorregistro = '{$password}'"); 	
-$user = ibase_fetch_assoc($qySenha);  
-if ($user == null) {
+if ($linha == null) {
 	header('Location: Login.php?error=true');
 }else{
-	$_SESSION['codRepresentante'] = $user["FCOD"];
-	header('Location: ConsPedidos.php',TRUE,307); 
-	
+	$_SESSION['codRepresentante'] = $linha["fcod"];
+	header('Location: ConsPedidos.php',TRUE,307);
 }
 ?>

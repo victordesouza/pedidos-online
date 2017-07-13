@@ -1,4 +1,4 @@
-<?php                 // TELA PARA REALIZAR PEDIDO, CONTÉM CABEÇALHO, CORPO E RODAPÉ 
+<?php                 // TELA PARA REALIZAR PEDIDO, CONTï¿½M CABEï¿½ALHO, CORPO E RODAPï¿½
 include("Cabecalho.php");
 
 if(array_key_exists("zerar",$_GET) && $_GET["zerar"]=="true"){
@@ -52,7 +52,7 @@ if (isset($_POST['oc'])) {
   $_SESSION['oc'] = $_POST['oc'];
 }
 
-$trans = ibase_query($conexao,"select FNOME, FCOD from augc0501 where FTIPO ='T'");
+$trans = mysqli_query($conexao,"select FNOME, FCOD from AUGC0501 where FTIPO ='T'");
 
 if (isset($_GET['tabDesc'])) {
   $_SESSION['tabDesc'] = $_GET['tabDesc'];
@@ -63,13 +63,13 @@ $tabDesc = $_SESSION['tabDesc'];
 
 <script>
   $(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();   
+    $('[data-toggle="tooltip"]').tooltip();
 });
 </script>
 
 <h3 align="center">Realizar Novo Pedido</h3>
   <div class="conteudo">
-  <div class="cabecalho">             <!-- ###########   CABEÇALHO   ###############-->  
+  <div class="cabecalho">             <!-- ###########   CABEï¿½ALHO   ###############-->
 
     <table align="left" width="90%" style="margin-left: 50px;line-height: 170%">
     <tr>
@@ -124,14 +124,14 @@ $tabDesc = $_SESSION['tabDesc'];
 
     </tr>
     </table>
-  </div>          <!-- ###########   FIM CABEÇALHO   ###############-->  
+  </div>          <!-- ###########   FIM CABEï¿½ALHO   ###############-->
 
-  <div class="corpo">       <!-- ###########   CORPO   ###############-->          
-    
+  <div class="corpo">       <!-- ###########   CORPO   ###############-->
+
   <table class="corpo" style="margin-bottom: 1.5%" align="center">
     <tr>
       <th class="corpo" width="4%">Itens</th>
-      <th class="corpo" width="15%">Nº Produto*</th>
+      <th class="corpo" width="15%">Produto*</th>
       <th class="corpo">Descrição</th>
       <th class="corpo" width="6%">Quantidade*</th>
       <th class="corpo" width="12%">% Desc</th>
@@ -142,15 +142,15 @@ $tabDesc = $_SESSION['tabDesc'];
       <th class="corpo" width="6%">Modificar</th>
     </tr>
 
-  <form action="addPedido.php" method="post">       <!-- PARA ADICIONAR UM ITEM À LISTA DE PRODUTOS DO PEDIDO -->
+  <form action="addPedido.php" method="post">       <!-- PARA ADICIONAR UM ITEM ï¿½ LISTA DE PRODUTOS DO PEDIDO -->
     <tr>
     <td align="center">#</td>
       <td class="corpo"><input id="corpotxt" type="text" name="nProduto" value="<?php if(isset($_SESSION['escolhaProduto'])){echo $_SESSION['escolhaProduto'];}?>"><button style="margin-left: 3px;" type="button" onclick="window.location.href='PesqProduto.php';" class="btn btn-default"><img width="22px" height="22px" src="search.png"></button></td>
 
       <td class="corpo"><input type="text" name="descProduto" id="descricaotxt" align="center" value="<?php if(isset($_SESSION['descricaoProduto'])){echo $_SESSION['descricaoProduto'];}?>"></td>
-      
+
       <td class="corpo"><input id="corpotxt" type="number" name="quant" min="1" value="1"></td>
-     
+
      <td class="corpo"><input id="quant" type="text" style="background-color: white;" name="desc" value="<?php if(isset($_POST['tabDesc'])){echo $_POST['tabDesc'];} ?>"><button style="margin-left: 3%;" type="button" onclick="window.location.href='desconto.php';" class="btn btn-default"><img width="22px" height="22px" src="search.png"></button></td>
 
       <td class="corpo"><input id="corpotxt" type="text" style="background-color: white;" name="valorU" value="<?php if(isset($_SESSION['precoProduto'])){echo $_SESSION['precoProduto'];}?>"></td>
@@ -175,11 +175,11 @@ for($x = 0; $x < $arrlength; $x++) {
 ?>
 
 
-<tr><form action="removePedido.php" method="post">      <!--PARA REMOVER UM ITEM À LISTA DE PRODUTOS DO PEDIDO-->
-      <td width="4%" class="corpo" align="center"><?php $_SESSION['item']++; echo $_SESSION['item']; ?></td>  
+<tr><form action="removePedido.php" method="post">      <!--PARA REMOVER UM ITEM ï¿½ LISTA DE PRODUTOS DO PEDIDO-->
+      <td width="4%" class="corpo" align="center"><?php $_SESSION['item']++; echo $_SESSION['item']; ?></td>
 
       <td width="15%" class="corpo"><input id="corpotxt" style="text-align: center;background-color: #f5f5f5;" type="text" name="valor" value="<?=$_SESSION['cesta'][$x];?>" disabled></td>
-      
+
       <td class="corpo"><p id="descricaotxt"><?=$_SESSION['descProduto'][$x]; ?></p></td>
 
       <td width="6%" class="corpo"><input id="corpotxt" style="text-align: center;background-color: #f5f5f5;" type="text" name="quant" value="<?=$_SESSION['quant'][$x];?>" disabled></td>
@@ -206,11 +206,11 @@ for($x = 0; $x < $arrlength; $x++) {
 
 
   </table>
-  </div>                  <!-- ###########   FIM  CORPO   ###############-->  
+  </div>                  <!-- ###########   FIM  CORPO   ###############-->
 
 
-  <div class="rodape">            <!-- ###########   RODAPE   ###############-->  
-    <table align="left" style="margin-left: 5%;line-height: 170%;width: 95%">         
+  <div class="rodape">            <!-- ###########   RODAPE   ###############-->
+    <table align="left" style="margin-left: 5%;line-height: 170%;width: 95%">
     <form action="Confirmacao.php" method="post">
     <tr>
       <th><p>% Desc Geral:</p> </th>
@@ -226,11 +226,11 @@ for($x = 0; $x < $arrlength; $x++) {
       <th><p>Valor IPI:</p></th>
       <td>
         <input type="text" style="text-align: center;background-color: #f5f5f5" id="rodapetxt" name="valorIPI" readonly="" value="<?php if(isset($_SESSION['ipiT']) && isset($_SESSION['local']) && $_SESSION['local'] == '1') { echo 'R$ '.(array_sum($_SESSION['ipiT']) * 0.05);} else { echo "R$ 0";} ?>">
-      </td> 
+      </td>
       <th><p>Valor Total:</p></th>
       <td>
       <input type="text" style="text-align: center;background-color: #f5f5f5" id="rodapetxt" name="valorTfinal" readonly="" value="<?='R$ '.$valorTfinal;?>" >
-      </td> 
+      </td>
 
     </tr>
     <tr>
@@ -252,7 +252,5 @@ for($x = 0; $x < $arrlength; $x++) {
   </div>
   </div>
 
-            <!-- ###########   FIM  RODAPE   ###############-->  
+            <!-- ###########   FIM  RODAPE   ###############-->
 <?php include("rodape.php");?>
-
-

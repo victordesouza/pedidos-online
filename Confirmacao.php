@@ -1,6 +1,6 @@
-<?php		// TELA DE CONFIRMAÇÃO DOS DADOS DO PEDIDO E MUDANÇA DE ENDEREÇO DO CLIENTE
-include ("Cabecalho.php");	
-					
+<?php		// TELA DE CONFIRMAï¿½ï¿½O DOS DADOS DO PEDIDO E MUDANï¿½A DE ENDEREï¿½O DO CLIENTE
+include ("Cabecalho.php");
+
 $valorTfinal = array_sum($_SESSION['valorT']);
 if (isset($_POST['descGeral'])) {
 	$descGeral = $_POST['descGeral'];
@@ -40,16 +40,16 @@ $endereco = $complemento = $numero = $bairro = $cidade = $cep = $estado = $email
 <form action="salvarPedido.php" method="post">
 <table class="confirma" align="center">
 
-<?php 
-$resultado = ibase_query($conexao,"select NOME, CODIGO_CLIENTE, CLENDERECO, CLENDNUMERO, EMAILCOMERCIAL, CLENDCOMPLEMENTO, BAIRRO, CEP, CIDADE, CONTATO, ESTADO, EMAIL, TELEFONE1, TELEFONE2 from augc0301 where CODIGO_CLIENTE = '$cliente';");
-$clientes = ibase_fetch_assoc($resultado);
+<?php
+$resultado = mysqli_query($conexao,"select NOME, CODIGO_CLIENTE, CLENDERECO, CLENDNUMERO, EMAILCOMERCIAL, CLENDCOMPLEMENTO, BAIRRO, CEP, CIDADE, CONTATO, ESTADO, EMAIL, TELEFONE1, TELEFONE2 from AUGC0301 where CODIGO_CLIENTE = '$cliente';");
+$clientes = mysqli_fetch_assoc($resultado);
 $cliente = $clientes['NOME'];
 if ($_SESSION['local'] == 1 && $_SESSION['operacao'] == 1) {
 	$local = '00004';
 }else if ($_SESSION['local'] == 1 && $_SESSION['operacao'] == 2) {
-	$local = '06101';	
+	$local = '06101';
 }else if ($_SESSION['local'] == 2 && $_SESSION['operacao'] == 1) {
-	$local = 'A0004';	
+	$local = 'A0004';
 }else {
 	$local = '06101';
 }
@@ -87,7 +87,7 @@ if ($_SESSION['local'] == 1 && $_SESSION['operacao'] == 1) {
 	<th class="confirma" style="width: 16.5%">Endereço *:</th>
 	<td align="center" class="confirma" colspan="3" style="width: 16.5%"><input type="text" id="txtedit" name="endereco" placeholder="<?php if(!empty($clientes['CLENDERECO'])){echo $clientes['CLENDERECO'];} else{$endereco = 0;}?>"></td>
 	<th class="confirma" style="width: 16.5%">Número *:</th>
-	<td align="center" class="confirma" style="width: 16.5%"><input type="number" name="numero" id="txtedit" placeholder="<?php if(!empty($clientes['CLENDNUMERO'])){echo $clientes['CLENDNUMERO'];} else{$numero = 0;}?>"></td>	
+	<td align="center" class="confirma" style="width: 16.5%"><input type="number" name="numero" id="txtedit" placeholder="<?php if(!empty($clientes['CLENDNUMERO'])){echo $clientes['CLENDNUMERO'];} else{$numero = 0;}?>"></td>
 </tr>
 <tr class="confirma">
 	<th class="confirma" style="width: 16.5%">Complemento:</th>
@@ -103,7 +103,7 @@ if ($_SESSION['local'] == 1 && $_SESSION['operacao'] == 1) {
 	<th class="confirma" style="width: 16.5%">UF *:</th>
 	<td align="center" class="confirma" style="width: 16.5%"><input type="text" id="txtedit" name="estado" placeholder="<?php if(!empty($clientes['ESTADO'])){echo $clientes['ESTADO'];} else{$estado = 0;}?>"></td>
 	<th class="confirma" style="width: 16.5%">CEP *:</th>
-	<td align="center" class="confirma" style="width: 16.5%"><input type="text" id="txtedit" name="cep" placeholder="<?php if(!empty($clientes['CEP'])){echo $clientes['CEP'];} else{$cep = 0;}?>"></td>	
+	<td align="center" class="confirma" style="width: 16.5%"><input type="text" id="txtedit" name="cep" placeholder="<?php if(!empty($clientes['CEP'])){echo $clientes['CEP'];} else{$cep = 0;}?>"></td>
 </tr>
 <tr class="confirma">
 	<th class="confirma" style="width: 16.5%">Bairro *:</th>
@@ -143,8 +143,6 @@ if ($_SESSION['local'] == 1 && $_SESSION['operacao'] == 1) {
 
 
 </form>
-</div>	
+</div>
 </div>
 <?php include("rodape.php");?>
-
-

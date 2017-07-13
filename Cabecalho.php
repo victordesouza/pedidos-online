@@ -23,7 +23,7 @@ if (isset($_SESSION['nomeCliente'])) {
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <ul>
-  <li><a class="active"><img style="width: 100%;height: 100%" src="magazin.png"></a></li>
+  <li><a class="active"><img style="width: 100%;" src="magazin.png"></a></li>
   <br>
   <li><a href="ConsPedidos.php">Meus Pedidos</a></li>
   <li><a href="NvPedido.php?zerar=true">Novo Pedido</a></li>
@@ -31,12 +31,3 @@ if (isset($_SESSION['nomeCliente'])) {
 </ul>
 
 <div class="texto" >
-
-
-
-
-
-  
-		
-
-			    <!-- fim cabecalho.php -->

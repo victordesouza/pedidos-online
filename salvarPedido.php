@@ -1,13 +1,13 @@
-<?php			// SALVA PEDIDO NO BANCO LOCAL 
-include ("Cabecalho.php");
+<?php			// SALVA PEDIDO NO BANCO LOCAL
+include ("ConectaBanco.php");
 
 $nPedidoArray = array();
 $numero = array();
 $operacao = $_POST['operacao'];
 
-$resultado = ibase_query($conexao,"select numero_pedido from avec8501");
+$resultado = mysqli_query($conexao,"select numero_pedido from AVEC8501");
 
-$escolhaCliente = $_SESSION['escolhaCliente']; 
+$escolhaCliente = $_SESSION['escolhaCliente'];
 $dataEmissao = date('d.m.y');
 
 $trans = $_SESSION['codTrans'];
@@ -44,15 +44,18 @@ if (empty($descGeral)) {
 	$descGeral = 0;
 }
 
-while ($nPedido = ibase_fetch_assoc($resultado)) {
-	array_push($nPedidoArray, $nPedido["NUMERO_PEDIDO"]);
+while ($nPedido = mysqli_fetch_assoc($resultado)) {
+	array_push($nPedidoArray, $nPedido["numero_pedido"]);
 }
 
-$nPedidoArray = max($nPedidoArray)+1;							// $nPedidoArray é o maior produto registrado
+$nPedidoArray = max($nPedidoArray)+1;							// $nPedidoArray ï¿½ o maior produto registrado
 
 
 //	SALVA PEDIDO
-$avec8501 = ibase_query($conexao,"insert into avec8501 (NUMERO_PEDIDO, CODIGO_CLIENTE, DATA_EMISSAO, DESCONTO_GERAL, OPERACAO, TABELA_VENCIMENTO, FRETE, VALOR_TOTAL, VELOCAL, FOVENDEDORAUX, ENTREGUE, CODIG_TRANSPORTADORA, NUMERO_O_COM, DATA_ENTREGA, AUX2) values ($nPedidoArray, '$escolhaCliente', '$dataEmissao', '$descGeral', '$operacao', '$tab', '$frete', '$valorTfinal', '0$local', '$representante', '$obs', '$trans', '$oc', '$dataEmissao', '1')");
+$avec8501 = mysqli_query($conexao,"insert into AVEC8501 (numero_pedido, codigo_cliente, data_emissao, desconto_geral,
+operacao, tabela_vencimento, frete, valor_total, velocal, fovendedoraux, entregue, codig_transportadora, numero_o_com,
+data_entrega, aux2) values ($nPedidoArray, '$escolhaCliente', '$dataEmissao', '$descGeral', '$operacao', '$tab',
+'$frete', '$valorTfinal', '0$local', '$representante', '$obs', '$trans', '$oc', '$dataEmissao', '1')");
 
 
 for($x = 0; $x < count($_SESSION['cesta']); $x++) {
@@ -65,12 +68,12 @@ for($x = 0; $x < count($_SESSION['cesta']); $x++) {
 	$valorT = $_SESSION['valorT'][$x];
 	$item = $x + 1;
 
-$com = ibase_query($conexao,"select g.comissao from avec85it i
-left outer join acec1101 p on (p.codigo = i.codigo)
-left outer join acec1201 g on (g.codigo = p.grcodigosubgrupo)
+$com = mysqli_query($conexao,"select g.comissao from AVEC85IT i
+left outer join ACEC1101 p on (p.codigo = i.codigo)
+left outer join ACEC1201 g on (g.codigo = p.grcodigosubgrupo)
 where i.cod = '$item' AND i.codigo = '$produto' and i.numero_pedido = '$nPedidoArray'");
 
-while ($comissao = ibase_fetch_assoc($com)) {
+while ($comissao = mysqli_fetch_assoc($com)) {
 	$comissaoaux = $comissao['comissao'];
 }
 if (empty($comissaoaux)||$comissaoaux == NULL) {
@@ -79,46 +82,48 @@ if (empty($comissaoaux)||$comissaoaux == NULL) {
 
 
 	// SLAVA ITENS DO PEDIDO
-$avec85it = ibase_query($conexao,"insert into avec85it (CODIGO, COD, NUMERO_PEDIDO, VALOR, QUANTIDADE, DESCONTO, IPI, ICMS, DATA_EMISSAO, TOTAL_UNIT, VEITCOMISSAOAUX) values ('$produto','$item',$nPedidoArray,'$valorU','$quantidade','$desconto','$ipi','$icms', '$dataEmissao','$valorT','$comissaoaux')");
+$avec85it = mysqli_query($conexao,"insert into AVEC85IT (codigo, cod, numero_pedido, valor,
+quantidade, desconto, ipi, icms, data_emissao, total_unit, veitcomissaoaux) values ('$produto',
+'$item',$nPedidoArray,'$valorU','$quantidade','$desconto','$ipi','$icms', '$dataEmissao','$valorT','$comissaoaux')");
 }
-//$avec85it = ibase_query($conexao,"insert into avec85it (CODIGO, COD, NUMERO_PEDIDO, VALOR, QUANTIDADE, DESCONTO, IPI, ICMS, DATA_EMISSAO, TOTAL_UNIT, VEITCOMISSAOAUX) values ('$produto','$item',$nPedidoArray,'$valorU','$quantidade','$desconto','$ipi','$icms','$dataEmissao','$valorT','$comissaoaux')");
+//$avec85it = mysqli_query($conexao,"insert into avec85it (CODIGO, COD, NUMERO_PEDIDO, VALOR, QUANTIDADE, DESCONTO, IPI, ICMS, DATA_EMISSAO, TOTAL_UNIT, VEITCOMISSAOAUX) values ('$produto','$item',$nPedidoArray,'$valorU','$quantidade','$desconto','$ipi','$icms','$dataEmissao','$valorT','$comissaoaux')");
 
 
 if (!empty($_POST['endereco'])) {
-	$augc0301 = ibase_query($conexao,"update augc0301 set CLENDERECO = '$endereco' where CODIGO_CLIENTE = '$escolhaCliente'");
+	$AUGC0301 = mysqli_query($conexao,"update AUGC0301 set clendereco = '$endereco' where codigo_cliente = '$escolhaCliente'");
 }
 if (!empty($_POST['complemento'])) {
-	$augc0301 = ibase_query($conexao,"update augc0301 set CLENDCOMPLEMENTO = '$compEnd' where CODIGO_CLIENTE = '$escolhaCliente'");
+	$AUGC0301 = mysqli_query($conexao,"update AUGC0301 set clendcomplemento = '$compEnd' where codigo_cliente = '$escolhaCliente'");
 }
 if (!empty($_POST['numero'])) {
-	$augc0301 = ibase_query($conexao,"update augc0301 set CLENDNUMERO = '$numeroEnd' where CODIGO_CLIENTE = '$escolhaCliente'");
+	$AUGC0301 = mysqli_query($conexao,"update AUGC0301 set clendnumero = '$numeroEnd' where codigo_cliente = '$escolhaCliente'");
 }
 if (!empty($_POST['bairro'])) {
-	$augc0301 = ibase_query($conexao,"update augc0301 set BAIRRO = '$bairro' where CODIGO_CLIENTE = '$escolhaCliente'");
+	$AUGC0301 = mysqli_query($conexao,"update AUGC0301 set bairro = '$bairro' where codigo_cliente = '$escolhaCliente'");
 }
 if (!empty($_POST['cidade'])) {
-	$augc0301 = ibase_query($conexao,"update augc0301 set CIDADE = '$cidade' where CODIGO_CLIENTE = '$escolhaCliente'");
+	$AUGC0301 = mysqli_query($conexao,"update AUGC0301 set cidade = '$cidade' where codigo_cliente = '$escolhaCliente'");
 }
 if (!empty($_POST['estado'])) {
-	$augc0301 = ibase_query($conexao,"update augc0301 set ESTADO = '$estado' where CODIGO_CLIENTE = '$escolhaCliente'");
+	$AUGC0301 = mysqli_query($conexao,"update AUGC0301 set estado = '$estado' where codigo_cliente = '$escolhaCliente'");
 }
 if (!empty($_POST['cep'])) {
-	$augc0301 = ibase_query($conexao,"update augc0301 set CEP = '$cep' where CODIGO_CLIENTE = '$escolhaCliente'");
+	$AUGC0301 = mysqli_query($conexao,"update AUGC0301 set cep = '$cep' where codigo_cliente = '$escolhaCliente'");
 }
 if (!empty($_POST['email'])) {
-	$augc0301 = ibase_query($conexao,"update augc0301 set EMAIL = '$email' where CODIGO_CLIENTE = '$escolhaCliente'");
+	$AUGC0301 = mysqli_query($conexao,"update AUGC0301 set email = '$email' where codigo_cliente = '$escolhaCliente'");
 }
 if (!empty($_POST['emailNFE'])) {
-	$augc0301 = ibase_query($conexao,"update augc0301 set EMAILCOMERCIAL = '$emailNFE' where CODIGO_CLIENTE = '$escolhaCliente'");
+	$AUGC0301 = mysqli_query($conexao,"update AUGC0301 set emailcomercial = '$emailNFE' where codigo_cliente = '$escolhaCliente'");
 }
 if (!empty($_POST['fone1'])) {
-	$augc0301 = ibase_query($conexao,"update augc0301 set TELEFONE1 = '$fone1' where CODIGO_CLIENTE = '$escolhaCliente'");
+	$AUGC0301 = mysqli_query($conexao,"update AUGC0301 set telefone1 = '$fone1' where codigo_cliente = '$escolhaCliente'");
 }
 if (!empty($_POST['fone2'])) {
-	$augc0301 = ibase_query($conexao,"update augc0301 set TELEFONE2 = '$fone2' where CODIGO_CLIENTE = '$escolhaCliente'");
+	$AUGC0301 = mysqli_query($conexao,"update AUGC0301 set telefone2 = '$fone2' where codigo_cliente = '$escolhaCliente'");
 }
 if (!empty($_POST['contato'])) {
-	$augc0301 = ibase_query($conexao,"update augc0301 set CONTATO = '$contato' where CODIGO_CLIENTE = '$escolhaCliente'");
+	$AUGC0301 = mysqli_query($conexao,"update AUGC0301 set contato = '$contato' where codigo_cliente = '$escolhaCliente'");
 }
 
 header('Location: ConsPedidos.php?pedido=true');

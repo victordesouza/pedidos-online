@@ -31,8 +31,8 @@ if (empty($nome)||empty($cnpjoucpf)||empty($endereco)||empty($numero)||empty($ba
 	header('Location: addCliente.php?error=true');
 }
 
-$codCl = ibase_query($conexao,"select max(CODIGO_CLIENTE) as MAXIMO from augc0301");
-while ($cod = ibase_fetch_assoc($codCl)) {
+$codCl = mysqli_query($conexao,"select max(CODIGO_CLIENTE) as MAXIMO from AUGC0301");
+while ($cod = mysqli_fetch_assoc($codCl)) {
 	if(substr($cod['MAXIMO'], 0, 1) == 'a'){
 		$a = (substr($cod['MAXIMO'], 1, 4)+1);
 		$codCliente = 'a'.$a;
@@ -42,7 +42,7 @@ while ($cod = ibase_fetch_assoc($codCl)) {
 	}else{$codCliente = $cod['MAXIMO'] + 1;}
 }
 echo $codCliente;
-$augc0301 = ibase_query($conexao,"insert into augc0301 (CODIGO_CLIENTE,NOME, BAIRRO, CIDADE, ESTADO, CEP, TELEFONE1, TELEFONE2, PESSOA_FISICAOUJURIDICA, CGC_CNPJ, CONTATO, LOCAL_EMPRESA, EMAIL, CLENDERECO, CLENDCOMPLEMENTO, CLENDNUMERO, EMAILCOMERCIAL) values ('$codCliente','$nome', '$bairro', '$cidade', '$estado', '$cep', '$fone1', '$fone2', '$tipo', '$cnpjoucpf', '$contato', '$local', '$email', '$endereco', '$complemento', '$numero', '$emailNFE')");
+$augc0301 = mysqli_query($conexao,"insert into AUGC0301 (CODIGO_CLIENTE,NOME, BAIRRO, CIDADE, ESTADO, CEP, TELEFONE1, TELEFONE2, PESSOA_FISICAOUJURIDICA, CGC_CNPJ, CONTATO, LOCAL_EMPRESA, EMAIL, CLENDERECO, CLENDCOMPLEMENTO, CLENDNUMERO, EMAILCOMERCIAL) values ('$codCliente','$nome', '$bairro', '$cidade', '$estado', '$cep', '$fone1', '$fone2', '$tipo', '$cnpjoucpf', '$contato', '$local', '$email', '$endereco', '$complemento', '$numero', '$emailNFE')");
 
 header('Location: ConsPedidos.php?cliente=true');
 

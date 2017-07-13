@@ -1,18 +1,11 @@
-<?php 	//CONEXAO COM BANCO LOCAL E MUDANÇA DE CODIFICAÇÃO PARA ISO-8859_1
+<?php 	//CONEXAO COM BANCO LOCAL E MUDAN�A DE CODIFICA��O PARA ISO-8859_1
 session_start();
-header("Content-Type: text/html; charset=ISO8859_1");
+header("Content-Type: text/html; charset=iso-8859-1");
+$user = "rocaza_novo";
+$pass = "magazin2017";
 
-//=========================================================================
-//Conexao banco firebird 1.5 Magazin Estofados
+$banco = "rocaza_pedidos";
+$host = "cpanel0191.hospedagemdesites.ws";
 
-$user = "SYSDBA";
-$pass = "masterkey";
-
-$hostnameCyber = "localhost:c:\jobs\cybersul\databases\DADOSADM.FDB";
-
-$conexao = ibase_connect($hostnameCyber, $user, $pass,'ISO8859_1');
-
-if (!isset($_SESSION['codRepresentante'])) {
-	header('Location: Login.php');
-}
+$conexao = mysqli_connect($host, $user, $pass, $banco);
 ?>
