@@ -26,7 +26,6 @@ if (isset($_GET['ordena'])) {
 
 <table style="width: 100%;margin-top: 20px" align="center"  class=" table-striped table-bordered table-hover table-condensed ">
 <tr>
-	<th id="pointer"><input type="checkbox" disabled="true"></th>
 	<th id="pointer"<?php if($menuativo == 'codC'){echo "class=ativo";}?> onClick="window.location.href = '?ordena=codC'">Codigo</th>
 	<th id="pointer"<?php if($menuativo == 'nomeC'){echo "class=ativo";}?> onClick="window.location.href = '?ordena=nomeC'">Nome</th>
 	<th id="pointer"<?php if($menuativo == 'CNPJ'){echo "class=ativo";}?> onClick="window.location.href = '?ordena=CNPJ'">CNPJ</th>
@@ -84,14 +83,14 @@ function pesquisa($coluna){
 	$pesquisar=explode(" ",$_POST['pesquisar']);
 	for ($i=0; $i < count($pesquisar); $i++) { 
 		if ($i == 0) {
-			$pesquisa = $coluna." like '".$pesquisar[$i];
+			$pesquisa = $coluna." like '%".$pesquisar[$i];
 			if($i + 1 == count($pesquisar) || $i == count($pesquisar)){
-				$pesquisa = $coluna." like '".$pesquisar[$i]."' order by ".$coluna;
+				$pesquisa = $coluna." like '%".$pesquisar[$i]."%' order by ".$coluna;
 			}
 		}else if($i + 1 == count($pesquisar)){
-			$pesquisa .= "' and ".$coluna." like '".$pesquisar[$i]."' order by ".$coluna;
+			$pesquisa .= "%' and ".$coluna." like '%".$pesquisar[$i]."%' order by ".$coluna;
 		}else{
-			$pesquisa .= "' and ".$coluna." like '".$pesquisar[$i];
+			$pesquisa .= "%' and ".$coluna." like '%".$pesquisar[$i];
 		}
 	}
 	return $pesquisa;	
@@ -101,16 +100,10 @@ $transArray = listaTrans($conexao);
 
 $i = 0;
 foreach ($transArray as $trans) {
-
+	$codTrans = $trans['FCOD'];
+	$nomeTrans = $trans['FNOME'];
 ?>
-	 <tr>
-	 	<td>
-		<form action="NvPedido.php?feitoTrans=true" method="post">
-			<input type="hidden" name="codTrans" value="<?=$trans['FCOD']?>">
-			<input type="hidden" name="nomeTrans" value="<?=$trans['FNOME']?>">
-			<input type="checkbox" name="checkbox" onChange="this.form.submit()">
-		</form>
-		</td>
+	 <tr id="pointer" onclick="window.location.href = 'NvPedido.php?codTrans=<?=$codTrans?>&nomeTrans=<?=$nomeTrans?>'">
 	 	<td><?=$trans['FCOD']?></td>
 	 	<td><?=$trans['FNOME']?></td> 
 	 	<td><?=$trans['FCNPJ_CIC']?></td> 

@@ -4,31 +4,33 @@ include("Cabecalho.php");
 if(array_key_exists("zerar",$_GET) && $_GET["zerar"]=="true"){
   $nomeCliente = $_SESSION['nomeCliente'];
   $codRepresentante = $_SESSION['codRepresentante'];
+  $logado = $_SESSION['logado'];
   session_unset();
+  $_SESSION['logado'] = $logado;
   $_SESSION['itensAtivos'] = 0;
   $_SESSION['nomeCliente'] = $nomeCliente;
   $_SESSION['codRepresentante'] = $codRepresentante;
 }
-if(array_key_exists("feito",$_GET) && $_GET["feito"]=="true" && isset($_POST['codCliente'])){
-  $escolhaCliente = $_POST['codCliente'];
+if(isset($_GET['codCliente'])){
+  $escolhaCliente = $_GET['codCliente'];
   $_SESSION['escolhaCliente'] = $escolhaCliente;
 }
-if(array_key_exists("feitoTrans",$_GET) && $_GET["feitoTrans"]=="true" && isset($_POST['codTrans'])&& isset($_POST['nomeTrans'])){
-  $escolhaTrans = $_POST['nomeTrans'];
+if(isset($_GET['codTrans'])&& isset($_GET['nomeTrans'])){
+  $escolhaTrans = $_GET['nomeTrans'];
   $_SESSION['escolhaTrans'] = $escolhaTrans;
-  $_SESSION['codTrans'] = $_POST['codTrans'];
+  $_SESSION['codTrans'] = $_GET['codTrans'];
 }
-if(array_key_exists("feitoProduto",$_GET) && $_GET["feitoProduto"]=="true" && isset($_POST['descricaoProduto']) && isset($_POST['precoProduto']) && isset($_POST['codProduto']) && isset($_POST['ipi']) && isset($_POST['icms'])){
-  $_SESSION['descricaoProduto'] = $_POST['descricaoProduto'];
-  $_SESSION['precoProduto'] = $_POST['precoProduto'];
-  $_SESSION['escolhaProduto'] = $_POST['codProduto'];
-  $_SESSION['ipi'] = $_POST['ipi'];
-  $_SESSION['icms'] = $_POST['icms'];
+if(isset($_GET['codProduto']) && isset($_GET['descricaoProduto']) && isset($_GET['precoProduto']) && isset($_GET['ipi']) && isset($_GET['icms'])){
+  $_SESSION['descricaoProduto'] = $_GET['descricaoProduto'];
+  $_SESSION['precoProduto'] = $_GET['precoProduto'];
+  $_SESSION['escolhaProduto'] = $_GET['codProduto'];
+  $_SESSION['ipi'] = $_GET['ipi'];
+  $_SESSION['icms'] = $_GET['icms'];
 }
-if(array_key_exists("feitoTab",$_GET) && $_GET["feitoTab"]=="true" && isset($_POST['descricaoTab']) && isset($_POST['codTab'])){
-  $escolhaTab = $_POST['descricaoTab'];
+if(isset($_GET['descricaoTab']) && isset($_GET['codTab'])){
+  $escolhaTab = $_GET['descricaoTab'];
   $_SESSION['escolhaTab'] = $escolhaTab;
-  $_SESSION['codTab'] = $_POST['codTab'];
+  $_SESSION['codTab'] = $_GET['codTab'];
 }
 if(array_key_exists("error",$_GET) && $_GET["error"]=="true"){ ?>
 <p class="alert-danger">Preencha os Campos Obrigatórios</p><br>
@@ -74,29 +76,52 @@ $tabDesc = $_SESSION['tabDesc'];
     <table align="left" width="90%" style="margin-left: 50px;line-height: 170%">
     <tr>
       <th>Cliente: *</th>
-      <td><form action="PesqCliente.php">
-        <input id="cabecalhotxt" style="margin-left: 30px;margin-top: 3px;text-align: center;" type="text" value="<?php if(isset($_SESSION['escolhaCliente'])){echo $_SESSION['escolhaCliente'];}?>" name="cli" disabled>
-        <button style="margin-top: 3px;margin-left: 10px;height: 25px;" type="submit" class="btn btn-default"><img width="22px" height="22px" src="search.png"></button>
-      </form></td>
-
+      <?php if(!isset($_SESSION['escolhaCliente'])) {?>
+      <td>
+        <form action="PesqCliente.php">
+          <button style="margin-left: 30px;width: 180px;margin-top: 3px;height: 28px" class="btn btn-default">Buscar Cliente</button>
+        </form>
+      </td>
+      <?php } else { ?>
+      <td>
+        <form action="PesqCliente.php">
+          <input id="cabecalhotxt" style="margin-left: 30px;margin-top: 3px;text-align: center;" type="text" value="<?php if(isset($_SESSION['escolhaCliente'])){echo $_SESSION['escolhaCliente'];}?>" name="cli" disabled>
+          <button style="margin-top: 3px;margin-left: 10px;height: 25px;" type="submit" class="btn btn-default"><img width="22px" height="22px" src="search.png"></button>
+        </form>
+      </td>
+      <?php } ?>
       <td></td><td></td>
       <form action="Transportadora.php" method="post">
-      <th><p style="margin-left: 100px;font-size: 14px;font-family: Helvetica ", Helvetica, Arial, sans-serif;">Transportadora: *</p></th>
-      <td>
-        <input id="cabecalhotxt" style="margin-left: 50px;margin-top: 3px;text-align: center;" type="text" value="<?php if(isset($_SESSION['escolhaTrans'])){echo $_SESSION['escolhaTrans'];}?>" name="trans" disabled>
-        <button style="margin-top: 3px;margin-left: 10px;height: 25px;" type="submit" class="btn btn-default"><img width="22px" height="22px" src="search.png"></button>
-      </td></form>
-
+        <th><p style="margin-left: 100px;font-size: 14px;font-family: Helvetica">Transportadora: *</p></th>
+        <?php if(!isset($_SESSION['escolhaTrans'])) {?>
+        <td>
+           <button style="margin-left: 50px;width: 180px;margin-top: 3px;height: 28px" class="btn btn-default">Buscar Transportadora</button>
+        </td>
+        <?php } else { ?>
+        <td>
+          <input id="cabecalhotxt" style="margin-left: 50px;margin-top: 3px;text-align: center;" type="text" value="<?php if(isset($_SESSION['escolhaTrans'])){echo $_SESSION['escolhaTrans'];}?>" name="trans" disabled>
+          <button style="margin-top: 3px;margin-left: 10px;height: 25px;" type="submit" class="btn btn-default"><img width="22px" height="22px" src="search.png"></button>
+        </td>
+        <?php } ?>
+      </form>
     </tr>
     <tr>
       <th>Tabela de Vencimento: *</th>
-      <td><form action="TabVencimento.php">
-        <input id="cabecalhotxt" style="margin-left: 30px;margin-top: 3px;text-align: center;" type="text" name="tabVencimento" value="<?php if(isset($_SESSION['escolhaTab'])){echo $_SESSION['escolhaTab'];}?>" disabled>
-        <button style="margin-top: 3px;margin-left: 10px;height: 25px;" type="submit" class="btn btn-default"><img width="22px" height="22px" src="search.png"></button>
-      </form></td>
+      <form action="TabVencimento.php">
+        <?php if(!isset($_SESSION['escolhaTab'])) {?>
+        <td>
+           <button style="margin-left: 30px;width: 180px;margin-top: 3px;height: 28px" type="submit" class="btn btn-default">Buscar Tab. Venc.</button>
+        </td>
+        <?php } else { ?>
+        <td>
+          <input id="cabecalhotxt" style="margin-left: 30px;margin-top: 3px;text-align: center;" type="text" name="tabVencimento" value="<?php if(isset($_SESSION['escolhaTab'])){echo $_SESSION['escolhaTab'];}?>" disabled>
+          <button style="margin-top: 3px;margin-left: 10px;height: 25px;" type="submit" class="btn btn-default"><img width="22px" height="22px" src="search.png"></button>
+        </td>
+        <?php } ?>
+      </form>
       <td></td><td></td>
       <form action="" method="post">
-      <th><p style="margin-left: 100px;font-size: 14px;font-family: Helvetica ", Helvetica, Arial, sans-serif;">Local: *</p></th>
+      <th><p style="margin-left: 100px;font-size: 14px;font-family: Helvetica ">Local: *</p></th>
       <td><select name="local" onchange="this.form.submit()" style="margin-left: 50px;width: 180px;float: left;font-size: 11px;height: 28px" class="form-control" id="sel1" <?php if($_SESSION['itensAtivos']!='0'&&$_SESSION['local']!='0'){echo "disabled='' ";} ?>>
           <option value="0" <?php if(isset($_SESSION['local']) && $_SESSION['local']==0){echo "selected";}?>>Selecionar</option>
           <option value="1" <?php if(isset($_SESSION['local']) && $_SESSION['local']==1){echo "selected";}?>>01-MAGAZIN ESTOFADOS</option>
@@ -116,8 +141,8 @@ $tabDesc = $_SESSION['tabDesc'];
 
       <td></td><td></td>
       <form action="" method="post">
-      <th><p style="margin-left: 100px;font-size: 14px;font-family: Helvetica ", Helvetica, Arial, sans-serif;">Ordem de Compra: *</p></th>
-      <td><input value="<?php if(isset($_SESSION['oc'])){echo $_SESSION['oc'];}?>" style="margin-left: 50px;height: 25px;text-align: center;<?php if(isset($_SESSION['oc'])){echo "background-color: #f5f5f5";}?>" height="20px" id="txtgenerico" type="text" name="oc" <?php if(isset($_SESSION['oc'])){echo "readonly";}?> >
+      <th><p style="margin-left: 100px;font-size: 14px;font-family: Helvetica">Ordem de Compra: *</p></th>
+      <td><input value="<?php if(isset($_SESSION['oc'])){echo $_SESSION['oc'];}?>" maxlength="10" style="margin-left: 50px;height: 25px;text-align: center;<?php if(isset($_SESSION['oc'])){echo "background-color: #f5f5f5";}?>" height="20px" id="txtgenerico" type="text" name="oc" <?php if(isset($_SESSION['oc'])){echo "readonly";}?> >
       <button style="margin-left: 10px;height: 25px;" type="submit" class="btn btn-default"><img width="22px" height="22px" src="certo.png"></button>
       </td>
       </form>
@@ -145,13 +170,22 @@ $tabDesc = $_SESSION['tabDesc'];
   <form action="addPedido.php" method="post">       <!-- PARA ADICIONAR UM ITEM ï¿½ LISTA DE PRODUTOS DO PEDIDO -->
     <tr>
     <td align="center">#</td>
-      <td class="corpo"><input id="corpotxt" type="text" name="nProduto" value="<?php if(isset($_SESSION['escolhaProduto'])){echo $_SESSION['escolhaProduto'];}?>"><button style="margin-left: 3px;" type="button" onclick="window.location.href='PesqProduto.php';" class="btn btn-default"><img width="22px" height="22px" src="search.png"></button></td>
+      <?php if(!isset($_SESSION['escolhaProduto'])) {?>
+      <td class="corpo">
+         <button style="margin-left: 10%;width: 75%;margin-top: 3px;margin-bottom: 3px;height: 28px" type="button" onclick="window.location.href='PesqProduto.php';" class="btn btn-default">Buscar Produto</button>
+      </td>
+      <?php } else { ?>
+      <td class="corpo">
+        <input id="corpotxt" type="text" name="nProduto" value="<?php if(isset($_SESSION['escolhaProduto'])){echo $_SESSION['escolhaProduto'];}?>"><button style="margin-left: 3px;" type="button" onclick="window.location.href='PesqProduto.php';" class="btn btn-default"><img width="22px" height="22px" src="search.png"></button>
+      </td>
+      <?php }?>
 
       <td class="corpo"><input type="text" name="descProduto" id="descricaotxt" align="center" value="<?php if(isset($_SESSION['descricaoProduto'])){echo $_SESSION['descricaoProduto'];}?>"></td>
 
       <td class="corpo"><input id="corpotxt" type="number" name="quant" min="1" value="1"></td>
 
-     <td class="corpo"><input id="quant" type="text" style="background-color: white;" name="desc" value="<?php if(isset($_POST['tabDesc'])){echo $_POST['tabDesc'];} ?>"><button style="margin-left: 3%;" type="button" onclick="window.location.href='desconto.php';" class="btn btn-default"><img width="22px" height="22px" src="search.png"></button></td>
+     <td class="corpo"><input id="quant" type="text" style="background-color: white;" name="desc" value="<?php if(isset($_POST['tabDesc'])){echo $_POST['tabDesc'];} ?>">
+       <button style="margin-left: 3%;" type="button" onclick="window.location.href='desconto.php';" class="btn btn-default"><img width="22px" height="22px" src="search.png"></button></td>
 
       <td class="corpo"><input id="corpotxt" type="text" style="background-color: white;" name="valorU" value="<?php if(isset($_SESSION['precoProduto'])){echo $_SESSION['precoProduto'];}?>"></td>
 
@@ -197,7 +231,7 @@ for($x = 0; $x < $arrlength; $x++) {
 
       <input type="hidden" name="escolha" value="<?php echo $x;?>">
     </form>
-    </tr>
+</tr>
 
 <?php
 }}}

@@ -22,7 +22,6 @@ if (isset($_POST['frete'])){
 $_SESSION['frete'] = $_POST['frete'];
 }
 
-
 if ($_SESSION['local']==0 || $_SESSION['operacao']==0 || !isset($_SESSION['oc']) || empty($quantTotal)||empty($valorTfinal)||empty($cliente)||empty($tab)||empty($trans)) {
 	header('Location: NvPedido.php?error=true');
 }
@@ -77,7 +76,7 @@ if ($_SESSION['local'] == 1 && $_SESSION['operacao'] == 1) {
 	<th class="confirma" style="width: 16.5%">Valor Total:</th>
 	<td align="center" class="confirma" style="width: 16.5%"><input type="text" name="valorTfinal" id="txtconfirma" value="<?='R$ '.$_SESSION['valorTfinal']?>" readonly=""></td>
 	<th class="confirma" style="width: 16.5%">Nome Contato:</th>
-	<td align="center" class="confirma" style="width: 16.5%"><input type="text"  id="	txtedit"  name="contato"></td>
+	<td align="center" class="confirma" style="width: 16.5%"><input type="text"  id="txtedit"  name="contato"></td>
 </tr>
 <tr class="confirma">
 	<td></td><td></td><th colspan="2" style="text-align: center;">Endereço Editável</th><td></td><td></td>
@@ -109,9 +108,9 @@ if ($_SESSION['local'] == 1 && $_SESSION['operacao'] == 1) {
 	<th class="confirma" style="width: 16.5%">Bairro *:</th>
 	<td align="center" class="confirma" style="width: 16.5%"><input type="text" id="txtedit" name="bairro" placeholder="<?php if(!empty($clientes['BAIRRO'])){echo $clientes['BAIRRO'];} else{$bairro = 0;}?>"></td>
 	<th class="confirma" style="width: 16.5%">Telefone 1 *:</th>
-	<td align="center" class="confirma" style="width: 16.5%"><input type="number" name="fone1" id="txtedit" placeholder="<?php if(!empty($clientes['TELEFONE1'])){echo $clientes['TELEFONE1'];} else{$fone1 = 0;}?>"></td>
+	<td align="center" class="confirma" style="width: 16.5%"><input type="textarea" name="fone1" id="txtedit" class="fone1" placeholder="<?php if(!empty($clientes['TELEFONE1'])){echo $clientes['TELEFONE1'];} else{$fone1 = 0;}?>"></td>
 	<th class="confirma" style="width: 16.5%">Telefone 2:</th>
-	<td align="center" class="confirma" style="width: 16.5%"><input type="number" id="txtedit" name="fone2" placeholder="<?php if(!empty($clientes['TELEFONE2'])){echo $clientes['TELEFONE2'];} else{$fone2 = 0;}?>"></td>
+	<td align="center" class="confirma" style="width: 16.5%"><input type="text" id="txtedit" name="fone2" class="fone2" placeholder="<?php if(!empty($clientes['TELEFONE2'])){echo $clientes['TELEFONE2'];} else{$fone2 = 0;}?>"></td>
 </tr>
 <tr>
 	<td></td><td></td><td></td><td></td><th colspan="2">* Se o endereço estiver correto não altere-o</th>

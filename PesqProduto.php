@@ -5,7 +5,7 @@ if (isset($_GET['ordena'])) {
 }else {
 	$menuativo = 'CODIGO';
 }
-
+error_reporting(0);
 ?>
 <h2 align="center">Tabela de Produtos</h2>
 
@@ -29,7 +29,6 @@ if (isset($_GET['ordena'])) {
 
 <table style="width: 100%;margin-top: 20px" align="center"  class=" table-striped table-bordered table-hover table-condensed ">
 <tr>
-	<th id="pointer"><input type="checkbox" disabled="true"></th>
 	<th id="pointer"<?php if($menuativo == 'CODIGO'){echo "class=ativo";}?> onClick="window.location.href = '?ordena=CODIGO'">CODIGO</th>
 	<th id="pointer"<?php if($menuativo == 'DESCRICAO'){echo "class=ativo";}?> onClick="window.location.href = '?ordena=DESCRICAO'">DESCRICAO</th>
 	<th id="pointer"<?php if($menuativo == 'ESTOQUE'){echo "class=ativo";}?> onClick="window.location.href = '?ordena=ESTOQUE'">ESTOQUE</th>
@@ -99,14 +98,14 @@ function listaProduto($conexao){
 			$pesquisar=explode(" ",$_POST['pesquisar']);
 			for ($i=0; $i < count($pesquisar); $i++) { 
 				if ($i == 0) {
-					$pesquisa = $menuativo." like '".$pesquisar[$i];
+					$pesquisa = $menuativo." like '%".$pesquisar[$i];
 					if($i + 1 == count($pesquisar) || $i == count($pesquisar)){
-						$pesquisa = $menuativo." like '".$pesquisar[$i]."' order by ".$menuativo;
+						$pesquisa = $menuativo." like '%".$pesquisar[$i]."%' order by ".$menuativo;
 					}
 				}else if($i + 1 == count($pesquisar)){
-					$pesquisa .= "' or ".$menuativo." like '".$pesquisar[$i]."' order by ".$menuativo;
+					$pesquisa .= "%' and ".$menuativo." like '%".$pesquisar[$i]."%' order by ".$menuativo;
 				}else{
-					$pesquisa .= "' or ".$menuativo." like '".$pesquisar[$i];
+					$pesquisa .= "%'and ".$menuativo." like '%".$pesquisar[$i];
 				}
 			}
 			return $pesquisa;	
@@ -130,19 +129,14 @@ $ProdutosArray = listaProduto($conexao);
 
 $i = 0;
 foreach ($ProdutosArray as $Produtos) {
+	$codProduto = $Produtos['codigo'];
+	$descricaoProduto = $Produtos['descricao'];
+	$precoProduto = $Produtos['pco_venda'];
+	$ipi = $Produtos['aiq_ipi'];
+	$icms = $Produtos['percentual_icms'];
 
 ?>
-	 <tr>
-	 	<td>
-		<form action="NvPedido.php?feitoProduto=true" method="post">
-			<input type="hidden" name="codProduto" value="<?=$Produtos['codigo']?>">
-			<input type="hidden" name="descricaoProduto" value="<?=$Produtos['descricao']?>">
-			<input type="hidden" name="precoProduto" value="<?=$Produtos['pco_venda']?>">
-			<input type="hidden" name="ipi" value="<?=$Produtos['aiq_ipi']?>">
-			<input type="hidden" name="icms" value="<?=$Produtos['percentual_icms']?>">
-			<input type="checkbox" name="checkbox" onChange="this.form.submit()">
-		</form>
-		</td>
+	 <tr id="pointer" onclick="window.location.href='NvPedido.php?codProduto=<?=$codProduto?>&descricaoProduto=<?=$descricaoProduto?>&precoProduto=<?=$precoProduto?>&ipi=<?=$ipi?>&icms=<?=$icms?>'">
 	 	<td><?=$Produtos['codigo']?></td>
 	 	<td><?=$Produtos['descricao']?></td> 
 	 	<td><?=$Produtos['estoque']?></td> 

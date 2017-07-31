@@ -8,6 +8,7 @@
 <body style="background-color: #999">
 
 <?php 									// TELA DE LOGIN DOS REPRESENTANTES
+session_start();
 header("Content-Type: text/html; charset=iso-8859-1");
 if(array_key_exists("error",$_GET) && $_GET["error"]=="true"){ ?>
 <p class="alert-danger">Usuário ou Senha Incorreto</p><br>

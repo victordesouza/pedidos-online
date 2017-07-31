@@ -54,14 +54,14 @@ function pesquisa($coluna){
 	$pesquisar=explode(" ",$_POST['pesquisar']);
 	for ($i=0; $i < count($pesquisar); $i++) {
 		if ($i == 0) {
-			$pesquisa = $coluna." containing '".$pesquisar[$i];
+			$pesquisa = $coluna." like '%".$pesquisar[$i];
 			if($i + 1 == count($pesquisar) || $i == count($pesquisar)){
-				$pesquisa = $coluna." containing '".$pesquisar[$i]."' order by ".$coluna;
+				$pesquisa = $coluna." like '%".$pesquisar[$i]."%' order by ".$coluna;
 			}
 		}else if($i + 1 == count($pesquisar)){
-			$pesquisa .= "' and ".$coluna." containing '".$pesquisar[$i]."' order by ".$coluna;
+			$pesquisa .= "%' and ".$coluna." like '%".$pesquisar[$i]."%' order by ".$coluna;
 		}else{
-			$pesquisa .= "' and ".$coluna." containing '".$pesquisar[$i];
+			$pesquisa .= "%' and ".$coluna." like '%".$pesquisar[$i];
 		}
 	}
 	return $pesquisa;
@@ -126,8 +126,8 @@ foreach ($pedidosArray as $pedidos) {
 	 	<td><?=$pedidos['numero_pedido']?></td>
 	 	<td><?=$pedidos['numero_o_com']?></td>
 	 	<td><?=$pedidos['nome']?></td>
-	 	<td><?=substr($pedidos['data_emissao'], -0, -8)?></td>
-	 	<td><?=substr($pedidos['data_entrega'], -0, -8)?></td>
+	 	<td><?=date("d/m/Y", strtotime($pedidos['data_emissao']))?></td>
+	 	<td><?=date("d/m/Y", strtotime($pedidos['data_entrega']))?></td>
 	 	<td>R$ <?=round($pedidos['valor_total'], 2);?></td>
 	 	<td>
 	 	<a href="detalhesPedido.php?numeroPedido=<?=$pedidos['numero_pedido']?>&cliente=<?=$pedidos['nome']?>&valorTfinal=<?=$pedidos['valor_total']?>">Detalhes</a>

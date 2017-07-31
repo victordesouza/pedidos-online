@@ -12,7 +12,7 @@ ul {
     position: fixed;
     height: 100%;
     overflow: auto;
-  
+
 
 }
 
@@ -95,8 +95,8 @@ div.rodape {
 #sel1 {
   margin-top: 3px;
   width: 200px;
-  height: 27px; 
-  float: left; 
+  height: 27px;
+  float: left;
 }
 
 #quant {
@@ -117,10 +117,11 @@ div.rodape {
   width: 60%;
   height: 25px;
   float: left;
-  font-size: 12px; 
+  font-size: 12px;
 }
 
 #corpotxt {
+  height: 26px;
   margin-left: 10%;
   text-align: center;
   border-color: #ccc;
@@ -140,6 +141,7 @@ div.rodape {
 }
 
 #descricaotxt {
+  min-height: 25px;
   margin-left: 5%;
   background-color: #f5f5f5;
   border-color: #ccc;
@@ -257,7 +259,7 @@ th.ativo {
     text-align: center;
     border-radius: 6px;
     padding: 5px 0;
-    
+
     /* Position the tooltip */
     position: absolute;
     z-index: 1;

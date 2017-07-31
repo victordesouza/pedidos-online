@@ -1,4 +1,4 @@
-<?php include("ConectaBanco.php");   // SCRIPTS JS JQUERY PARA MASCARAS DE FORMS?>
+<?php include("FuncoesBanco.php");   // SCRIPTS JS JQUERY PARA MASCARAS DE FORMS?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +11,10 @@
   $(document).ready(function(){$("#cnpj").mask("99.999.999/9999-99");});
   $(document).ready(function(){$("#cpf").mask("999.999.999-99");});
   $(document).ready(function(){$("#cep").mask("99.999-999");});
+  $(document).ready(function(){$(".fone1").mask("(99) 9999-9999");});
+  $(document).ready(function(){$(".fone2").mask("(99) 9999-9999");});
   </script>
+  <script type="text/javascript">$("#txttelefone").mask("(00) 0000-00009");</script>
 </head>
 
 <body style="position: relative;">

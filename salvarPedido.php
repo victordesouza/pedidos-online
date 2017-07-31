@@ -1,5 +1,5 @@
 <?php			// SALVA PEDIDO NO BANCO LOCAL
-include ("ConectaBanco.php");
+include ("FuncoesBanco.php");
 
 $nPedidoArray = array();
 $numero = array();

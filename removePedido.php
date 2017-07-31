@@ -1,10 +1,10 @@
-<?php 				// REMOVE ITEM DO PEDIDO 
+<?php 				// REMOVE ITEM DO PEDIDO
 session_start();
 $_SESSION['itensAtivos'] --;
 
-$escolha = $_POST['escolha'];
+$escolha = $_POST['escolha'];  // posicao do vetor a ser removida
 $ultimo = count($_SESSION['cesta']);
-$ultimoQuant = count($_SESSION['quant']); 
+$ultimoQuant = count($_SESSION['quant']);
 $ultimovalorU = count($_SESSION['valorU']);
 $ultimovalorT = count($_SESSION['valorT']);
 $ultimoDescProduto = count($_SESSION['descProduto']);
@@ -14,40 +14,31 @@ $ultimoCoisa2 = count($_SESSION['coisa2']);
 $ultimoIPI = count($_SESSION['ipiT']);
 
 unset($_SESSION['ipiT'][$escolha]);
-$_SESSION['ipiT'][$escolha] = $_SESSION['ipiT'][$escolha+1];
-unset($_SESSION['ipiT'][$ultimo-1]);
+$_SESSION['ipiT'] = array_values($_SESSION['ipiT']);
 
 unset($_SESSION['cesta'][$escolha]);
-$_SESSION['cesta'][$escolha] = $_SESSION['cesta'][$escolha+1];
-unset($_SESSION['cesta'][$ultimo-1]);
+$_SESSION['cesta'] = array_values($_SESSION['cesta']);
 
 unset($_SESSION['quant'][$escolha]);
-$_SESSION['quant'][$escolha] = $_SESSION['quant'][$escolha+1];
-unset($_SESSION['quant'][$ultimoQuant-1]);
+$_SESSION['quant'] = array_values($_SESSION['quant']);
 
 unset($_SESSION['valorU'][$escolha]);
-$_SESSION['valorU'][$escolha] = $_SESSION['valorU'][$escolha+1];
-unset($_SESSION['valorU'][$ultimovalorU-1]);
+$_SESSION['valorU'] = array_values($_SESSION['valorU']);
 
 unset($_SESSION['valorT'][$escolha]);
-$_SESSION['valorT'][$escolha] = $_SESSION['valorT'][$escolha+1];
-unset($_SESSION['valorT'][$ultimovalorT-1]);
+$_SESSION['valorT'] = array_values($_SESSION['valorT']);
 
 unset($_SESSION['descProduto'][$escolha]);
-$_SESSION['descProduto'][$escolha] = $_SESSION['descProduto'][$escolha+1];
-unset($_SESSION['descProduto'][$ultimoDescProduto-1]);
+$_SESSION['descProduto'] = array_values($_SESSION['descProduto']);
 
 unset($_SESSION['desc'][$escolha]);
-$_SESSION['desc'][$escolha] = $_SESSION['desc'][$escolha+1];
-unset($_SESSION['desc'][$ultimoDesc-1]);
+$_SESSION['desc'] = array_values($_SESSION['desc']);
 
 unset($_SESSION['coisa1'][$escolha]);
-$_SESSION['coisa1'][$escolha] = $_SESSION['coisa1'][$escolha+1];
-unset($_SESSION['coisa1'][$ultimoCoisa1-1]);
+$_SESSION['coisa1'] = array_values($_SESSION['coisa1']);
 
 unset($_SESSION['coisa2'][$escolha]);
-$_SESSION['coisa2'][$escolha] = $_SESSION['coisa2'][$escolha+1];
-unset($_SESSION['coisa2'][$ultimoCoisa2-1]);
+$_SESSION['coisa2'] = array_values($_SESSION['coisa2']);
 
 header("Location: NvPedido.php");
 
